@@ -14,7 +14,7 @@ class Player {
 
     this.sheet = new Sheet();
     //this.audio.addEventListener('timeupdate', () => this.sheet.set_time(this.audio.currentTime));  // This is too irregular
-    setInterval(() => this.sheet.set_time(this.audio.currentTime), 30);
+    this.update_time();
     document.body.classList.add('loading');
   }
 
@@ -85,7 +85,12 @@ class Player {
       await this.play_music(this.playlist[this.playlist.length-1]);
     }
     setTimeout(() => this.update_playlist(), 1000);
-  };
+  }
+
+  update_time() {
+    const wait = this.sheet.set_time(this.audio.currentTime);
+    setTimeout(() => this.update_time(), wait * 1000);
+  }
 
   async play_music(music) {
     this.current_music = music;

@@ -31,8 +31,6 @@ class Sheet {
 
     this.section_el.style.display = 'none';
 
-    this.previous_time = -1;
-
     this.pattern_canvas = document.createElement('canvas');
   }
 
@@ -128,9 +126,10 @@ class Sheet {
     this.section_el.style.display = 'block';
   }
 
+  // Returns time to wait in seconds till next beat
   set_time(t) {
-    if(!this.desc || this.previous_time == t) {
-      return;
+    if(!this.desc) {
+      return 1; // One second till next check
     }
     const beat_duration = (60 / this.desc.tempo) * (4 / this.desc.signature.beat_value);
     const current_beat = Math.floor(t / beat_duration);
@@ -142,7 +141,7 @@ class Sheet {
       behavior: 'smooth',
       inline: 'center',
     });
-    this.previous_time = t;
+    return beat_duration - (t % beat_duration) + 0.04; // Add 40ms to avoid timer setting off too soon
   }
 
   async get_pattern_image(track, pattern) {
