@@ -1,4 +1,4 @@
-const api_endpoint = location.host ? 'https://api.lutopia.net' : 'http://localhost:8000';
+const api_endpoint = location.host ? 'https://api.lutopia.net' : 'http://localhost:24310';
 async function api(path, init) {
   return (await fetch(`${api_endpoint}${path}`, init)).json();
 }
